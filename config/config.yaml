@@ -1,1 +1,8 @@
-sample: "a"
+master_table: .test/master.tbl.txt
+ref : /net/eichler/vol26/projects/chm13_t2t/nobackups/assemblies/hg38.chr_only.fa
+gene_oi:
+  TBC1D3L : /net/eichler/vol28/home/guitarfx/universally_useful_data/TBC1D3/TBC1D3L_sequence_exonUPPER.fa
+regions:
+  exp1 :  .test/exp1_hg38.bed
+  exp2 : .test/exp2_hg38.bed
+  both_exp : .test/both_exp_hg38.bed
