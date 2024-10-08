@@ -19,7 +19,12 @@ wildcard_constraints:
 ########## ALL HELPER FUNCTIONS
 def get_geneOI_path(wc):
     '''return path from config of gene_OI.'''
-    
+    return config['gene_oi'][wc.geneOI]
+
+def get_query_fa(wc):
+    return manifest_df.at[(wc.samp, wc.hap), 'fasta']
+###############
+
 
 # rule all:
 #     input:
@@ -31,7 +36,19 @@ rule map_geneOI:
        output: 1. paf of alignments ; 2. bed of geneOIs in query
     '''
     input:
-        geneOI = 
+        gene_OI_fa = get_geneOI_path,
+        query = get_query_fa
+    output:
+        bed = "results/geneOI_mapping/{gene_oi}_{samp}_{hap}.bed",
+    resources:
+        mem_mb=300
+    threads: 4
+    shell:'''
+    minimap2 -ax asm20 --secondary=yes -p 0.3 -N 10000 --eqx -t {threads} -r 500 -K 200M {input.query} ${input.gene_OI_fa} | \
+    samtools view -b - | samtools sort | \
+    bedtools bamtobed -i - > {output.bed}
+'''
+
 
 # rule map_unique:
 #     '''map unique sequence of region of interest to query and return paf of unique alignment coordinates
