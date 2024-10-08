@@ -1,10 +1,64 @@
 from snakemake.utils import min_version
 
-min_version("8.0")
+min_version("6.0")
 
-include: "rules/common.smk"
+# define your configuration via python
+# or define a yaml e.g.
+configfile: 'locus_pull.yaml'
 
-rule all:
+def get_geneOI_path(wc):
+    '''return path from config of gene_OI.'''
+    
+
+# rule all:
+#     input:
+#     expand()
+
+rule map_geneOI:
+    '''map gene of interest to query haplotype with minimap2 and return paf file of all coordinates
+       input: query hap, gene_oi
+       output: 1. paf of alignments ; 2. bed of geneOIs in query
+    '''
     input:
-        [],
+        geneOI = 
 
+# rule map_unique:
+#     '''map unique sequence of region of interest to query and return paf of unique alignment coordinates
+#        input: 1. query hap (fasta), 2. unique sequence of loc (fasta)
+#        output: paf file of unique sequence mappings
+#     '''
+
+# rule get_loc_bed:
+#     '''process paf from map_unique and return bedfile of region of interest
+#        input: paf file from map_unique
+#        output: bed file of merged location
+#     '''
+
+# rule get_loc_gene_bed:
+#     '''process paf from rule.map_geneOI and rule.get_loc_bed to get location specific bed.
+#        input: 1. gene bed from rule map_geneOI; 2. bed from rule get_loc_bed
+#        output: 1. gene bed of genes of interest in locus region
+#     '''
+
+# rule get_pass_fail_haps:
+#     '''figure out samples in master_table that passed from this approach
+#        input: master table, all get_loc_bed
+#        output: tab_separated file of each sample if passed or failed
+#     '''
+
+# rule get_loc_seq:
+#     '''get location specific sequence
+#        input: 1. bed from get_loc_bed; 2. query hap (fasta)
+#        output: fasta sequence
+#     '''
+# rule get_gene_seq:
+#     '''get gene bed specific sequence
+#        input: 1. bed from rule map_geneOI; 2. query hap (fasta)
+#        output: fasta sequence
+#     '''
+
+# rule get_loc_gene_seq:
+#     '''get gene bed specific sequence
+#        input: 1. bed from rule get_loc_gene_bed; 2. query hap (fasta)
+#        output: fasta sequence
+#     '''
