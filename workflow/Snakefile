@@ -15,14 +15,14 @@ manifest_df.sort_index(inplace=True)
 ########## wildcard
 wildcard_constraints:
     samp='|'.join(manifest_df['sample'].unique()),
-    hap='|'.join(manifest_df['sample'].unique()),
+    hap='|'.join(manifest_df['hap'].unique()),
     gene_oi = '|'.join( list(config['gene_oi'].keys()) )
 ##########
 
 ########## ALL HELPER FUNCTIONS
 def get_geneOI_path(wc):
     '''return path from config of gene_OI.'''
-    return config['gene_oi'][wc.geneOI]
+    return config['gene_oi'][wc.gene_oi]
 
 def get_query_fa(wc):
     return manifest_df.at[(wc.samp, wc.hap), 'fasta']
