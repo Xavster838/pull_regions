@@ -14,6 +14,7 @@ manifest_df.sort_index(inplace=True)
 wildcard_constraints:
     samp='|'.join(manifest_df['sample'].unique()),
     hap='|'.join(manifest_df['sample'].unique()),
+    gene_oi = '|'.join( list(config['gene_oi'].keys()) )
 ##########
 
 ########## ALL HELPER FUNCTIONS
