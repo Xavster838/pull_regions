@@ -46,10 +46,12 @@ rule map_geneOI:
     resources:
         mem_mb=300
     threads: 4
+    conda: "envs/env.yml" 
     shell:'''
-    minimap2 -ax asm20 --secondary=yes -p 0.3 -N 10000 --eqx -t {threads} -r 500 -K 200M {input.query} ${input.gene_OI_fa} | \
-    samtools view -b - | samtools sort | \
-    bedtools bamtobed -i - > {output.bed}
+    minimap2 -ax asm20 --secondary=yes -p 0.3 -N 10000 --eqx -t {threads} -r 500 -K 200M {input.query} {input.gene_OI_fa} | \
+	samtools view -b - | \
+	samtools sort | \
+	bedtools bamtobed -i - > {output.bed}
 '''
 
 
