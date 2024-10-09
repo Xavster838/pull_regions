@@ -28,6 +28,14 @@ def get_geneOI_path(wc):
 def get_query_fa(wc):
     '''get query fasta file from manifest given wildcards. Return file path'''
     return manifest_df.at[(wc.samp, wc.hap), 'fasta']
+
+def get_ref(wc):
+    '''get reference fasta from config. return file path'''
+    return config['ref']
+
+def get_rgn_bed(wc):
+    '''get region bed given wildcard region'''
+    return config['regions'][wc.rgn]
 ###############
 
 
