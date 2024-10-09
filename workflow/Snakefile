@@ -83,11 +83,23 @@ rule get_unique:
     bedtools getfasta -s -fi {input.ref} -bed {input.rgn_bed} -fo {output.fa} -nameOnly
 '''
 
-# rule map_unique:
-#     '''map unique sequence of region of interest to query and return paf of unique alignment coordinates
-#        input: 1. query hap (fasta), 2. unique sequence of loc (fasta)
-#        output: paf file of unique sequence mappings
-#     '''
+rule map_unique:
+    '''map unique sequence of region of interest to query and return paf of unique alignment coordinates
+       input: 1. query hap (fasta), 2. unique sequence of loc (fasta)
+       output: paf file of unique sequence mappings
+    '''
+    input:
+        query = get_query_fa
+        rgn_fa=rules.get_unique.output.fa
+    output:
+        paf = temp("tmp/{rgn}_{samp}_{hap}_mapping.paf")
+    threads: 8
+    resources:
+        mem_mb = 2000
+    conda: "envs/env.yml"
+    shell:'''
+    minimap2 -x asm10 --secondary=no --eqx -t {threads} -r 500 -K 100M {input.query} {input.gene_OI_fa} > {output.paf}
+'''
 
 # rule get_loc_bed:
 #     '''process paf from map_unique and return bedfile of region of interest
