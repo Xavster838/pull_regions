@@ -26,6 +26,7 @@ def get_geneOI_path(wc):
     return config['gene_oi'][wc.gene_oi]
 
 def get_query_fa(wc):
+    '''get query fasta file from manifest given wildcards. Return file path'''
     return manifest_df.at[(wc.samp, wc.hap), 'fasta']
 ###############
 
