@@ -89,7 +89,7 @@ rule map_unique:
        output: paf file of unique sequence mappings
     '''
     input:
-        query = get_query_fa
+        query = get_query_fa ,
         rgn_fa=rules.get_unique.output.fa
     output:
         paf = temp("tmp/{rgn}_{samp}_{hap}_mapping.paf")
@@ -98,7 +98,7 @@ rule map_unique:
         mem_mb = 2000
     conda: "envs/env.yml"
     shell:'''
-    minimap2 -x asm10 --secondary=no --eqx -t {threads} -r 500 -K 100M {input.query} {input.gene_OI_fa} > {output.paf}
+    minimap2 -x asm10 --secondary=no --eqx -t {threads} -r 500 -K 100M {input.query} {input.rgn_fa} > {output.paf}
 '''
 
 # rule get_loc_bed:
