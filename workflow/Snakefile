@@ -101,11 +101,21 @@ rule map_unique:
     minimap2 -x asm10 --secondary=no --eqx -t {threads} -r 500 -K 100M {input.query} {input.rgn_fa} > {output.paf}
 '''
 
-# rule get_loc_bed:
-#     '''process paf from map_unique and return bedfile of region of interest
-#        input: paf file from map_unique
-#        output: bed file of merged location
-#     '''
+rule get_loc_bed:
+    '''process paf from map_unique and return bedfile of region of interest
+       input: paf file from map_unique
+       output: bed file of merged location
+    '''
+    input:
+        paf = rules.map_unique.output.paf
+    output:
+        bed = "tmp/{rgn}_{samp}_{hap}_rgn.bed"
+    threads: 2
+    resources:
+        mem_mb = 200
+    conda: "envs/env.yml"
+    script:
+        "scripts/get_loc_bed.py"
 
 # rule get_loc_gene_bed:
 #     '''process paf from rule.map_geneOI and rule.get_loc_bed to get location specific bed.
