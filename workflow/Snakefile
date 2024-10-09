@@ -64,6 +64,24 @@ rule map_geneOI:
 	bedtools bamtobed -i - > {output.bed}
 '''
 
+rule get_unique:
+    '''
+    get unique sequence of referecne regions of interest to be mapped to queries to pull regions
+    @input: region bam, reference fasta
+    @output: fasta of region sequence
+    '''
+    input:
+        ref = get_ref,
+        rgn_bed=get_rgn_bed
+    output:
+        fa = temp("tmp/{rgn}.fa")
+    threads: 2
+    resources:
+        mem_mb = 200
+    conda: "envs/env.yml"
+    shell: '''
+    bedtools getfasta -s -fi {input.ref} -bed {input.rgn_bed} -fo {output.fa} -nameOnly
+'''
 
 # rule map_unique:
 #     '''map unique sequence of region of interest to query and return paf of unique alignment coordinates
