@@ -8,6 +8,8 @@ min_version("6.0")
 # or define a yaml e.g.
 configfile: 'config.yaml'
 
+SDIR=workflow.basedir #snakemake dir
+
 manifest_df = pd.read_csv(config['master_table'], sep='\t', header=0, dtype=str)
 manifest_df = manifest_df.set_index(['sample', 'hap'], drop=False)
 manifest_df.sort_index(inplace=True)
@@ -114,8 +116,9 @@ rule get_loc_bed:
     resources:
         mem_mb = 200
     conda: "envs/env.yml"
-    script:
-        "scripts/get_loc_bed.py"
+    shell:'''
+python {SDIR}/scripts/get_loc_bed.py --paf {input.paf} --bed {output.bed} --rgn {wildcards.rgn} --sample {wildcards.samp} --hap {wildcards.hap}
+'''
 
 # rule get_loc_gene_bed:
 #     '''process paf from rule.map_geneOI and rule.get_loc_bed to get location specific bed.
