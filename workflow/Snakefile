@@ -163,11 +163,23 @@ rule get_loc_seq:
 bedtools getfasta -fi {input.query} -bed {input.loc_bed} -s -nameOnly -fo {output.fa}
 '''
 
-# rule get_gene_seq:
-#     '''get gene bed specific sequence
-#        input: 1. bed from rule map_geneOI; 2. query hap (fasta)
-#        output: fasta sequence
-#     '''
+rule get_gene_seq:
+    '''get gene bed specific sequence
+       input: 1. bed from rule map_geneOI; 2. query hap (fasta)
+       output: fasta sequence
+    '''
+    input:
+        gene_bed = rules.map_geneOI.output.bed,
+        query = get_query_fa
+    output:
+        fa = "results/rgn_seq/{rgn}/{rgn}_rgn_{samp}_{hap}.fa"
+    threads: 2
+    resources:
+        mem_mb = 200
+    conda: "envs/env.yml"
+    shell:'''
+bedtools getfasta -fi {input.query} -bed {input.gene_bed} -s -nameOnly -fo {output.fa}
+'''
 
 # rule get_loc_gene_seq:
 #     '''get gene bed specific sequence
