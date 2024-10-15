@@ -172,7 +172,7 @@ rule get_gene_seq:
         gene_bed = rules.map_geneOI.output.bed,
         query = get_query_fa
     output:
-        fa = "results/geneOI_mapping/{rgn}/{rgn}_{gene_oi}_{samp}_{hap}_mappings.fa"
+        fa = "results/geneOI_mapping/sequence/{gene_oi}_{samp}_{hap}_mappings.fa"
     threads: 2
     resources:
         mem_mb = 200
