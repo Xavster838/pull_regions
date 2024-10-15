@@ -64,7 +64,7 @@ rule map_geneOI:
 	samtools view -b - | \
 	samtools sort | \
 	bedtools bamtobed -i - | \
-    awk -F "\t" 'BEGIN{OFS=FS}{$4="{wildcards.samp}_{wildcards.hap}-{wildcards.gene_oi}-"NR; print $0}' > {output.bed}
+    awk -F "\t" 'BEGIN{{OFS=FS}}{{$4="{wildcards.samp}_{wildcards.hap}-{wildcards.gene_oi}-"NR; print $0}}' > {output.bed}
 '''
 
 rule get_unique:
