@@ -38,6 +38,10 @@ def get_ref(wc):
 def get_rgn_bed(wc):
     '''get region bed given wildcard region'''
     return config['regions'][wc.rgn]
+
+def get_all_loc(wc):
+    '''return names for all loc_fa given region, samples, haps in manifest. return list of fa files for rule get_all_loc_seq'''
+    return [f"results/rgn_seq/{wc.rgn}/{wc.rgn}_rgn_{s}_{h}.fa" for s,h in manifest_df.index]
 ###############
 
 
@@ -198,3 +202,8 @@ rule get_loc_gene_seq:
     shell:'''
 bedtools getfasta -fi {input.query} -bed {input.gene_bed} -s -nameOnly -fo {output.fa}
 '''
+
+rule get_all_loc_seq:
+    '''get all loc seq given master_tbl and region of interest. Return all fasta files'''
+    input:
+        all_loc = get_all_loc
