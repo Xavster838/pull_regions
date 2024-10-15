@@ -42,8 +42,8 @@ def get_rgn_bed(wc):
 def get_all_loc(wc):
     '''return names for all loc_fa for all regions, samples, haps in manifest. return list of fa files for rule get_all_loc_seq'''
     out_list = []
-    for rgn in config['regions'].keys():
-        out_list = outlist + [f"results/rgn_seq/{rgn}/{rgn}_rgn_{s}_{h}.fa" for s,h in manifest_df.index]
+    for r in config['regions'].keys():
+        out_list = out_list + [f"results/rgn_seq/{r}/{r}_rgn_{s}_{h}.fa" for s,h in manifest_df.index]
     return out_list
 ###############
 
