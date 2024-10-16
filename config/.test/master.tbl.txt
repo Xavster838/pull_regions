@@ -2,3 +2,4 @@ fasta	sample	hap	SuperPop
 /net/eichler/vol26/projects/chm13_t2t/nobackups/assemblies/T2T-CHM13v2.fasta	CHM13	pri	Human
 /net/eichler/vol28/projects/long_read_archive/nobackups/pop/GM19129/assemblies/verkko/1.4-hgsvc/sseq/NA19129.vrk-ps-sseq.asm-hap1.fasta.gz	GM19129	1	AFR
 /net/eichler/vol28/projects/long_read_archive/nobackups/pop/HG002/assemblies/t2t/v1.0/hg002v1.0.h1.fasta	HG002	1	EUR
+/net/eichler/vol28/projects/long_read_archive/nobackups/pop/HG01258/assemblies/verkko/1.0/assembly.haplotype1.fasta	HG01258	1	AMR
