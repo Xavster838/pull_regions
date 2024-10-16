@@ -166,7 +166,7 @@ rule get_loc_seq:
     resources:
         mem_mb = 200
     conda: "envs/env.yml"
-    log: "logs/q_h_seq_results.log"
+    log: "logs/{rgn}_{samp}_{hap}_seq_results.log"
     shell:'''
 # Check if the word "Fail" exists in the file
 if grep -q "Fail" {input.loc_bed}; then
