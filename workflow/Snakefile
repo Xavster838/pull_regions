@@ -166,8 +166,15 @@ rule get_loc_seq:
     resources:
         mem_mb = 200
     conda: "envs/env.yml"
+    log: "logs/q_h_seq_results.log"
     shell:'''
-bedtools getfasta -fi {input.query} -bed {input.loc_bed} -s -nameOnly -fo {output.fa}
+# Check if the word "Fail" exists in the file
+if grep -q "Fail" {input.loc_bed}; then
+    cat {input.loc_bed} > {log}
+    touch {output.fa}
+else
+    bedtools getfasta -fi {input.query} -bed {input.loc_bed} -s -nameOnly -fo {output.fa}
+fi
 '''
 
 rule get_gene_seq:
@@ -185,7 +192,11 @@ rule get_gene_seq:
         mem_mb = 200
     conda: "envs/env.yml"
     shell:'''
-bedtools getfasta -fi {input.query} -bed {input.gene_bed} -s -nameOnly -fo {output.fa}
+if grep -q "Fail" {input.loc_bed}; then
+    touch {output.fa}
+else
+    bedtools getfasta -fi {input.query} -bed {input.gene_bed} -s -nameOnly -fo {output.fa}
+fi
 '''
 
 rule get_loc_gene_seq:
@@ -203,7 +214,11 @@ rule get_loc_gene_seq:
         mem_mb = 200
     conda: "envs/env.yml"
     shell:'''
-bedtools getfasta -fi {input.query} -bed {input.gene_bed} -s -nameOnly -fo {output.fa}
+if grep -q "Fail" {input.loc_bed}; then
+    touch {output.fa}
+else
+    bedtools getfasta -fi {input.query} -bed {input.gene_bed} -s -nameOnly -fo {output.fa}
+fi
 '''
 
 rule get_all_loc_seq:
