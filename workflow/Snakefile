@@ -45,6 +45,16 @@ def get_all_loc(wc):
     for r in config['regions'].keys():
         out_list = out_list + [f"results/rgn_seq/{r}/{r}_rgn_{s}_{h}.fa" for s,h in manifest_df.index]
     return out_list
+
+def get_all_gene_seq(wc):
+    '''return output names for all gene_seq for all regions, samples, haps in manifest. return list of fa files for rule get_all_gene_seq'''
+    out_list = []
+    for g in config['gene_oi'].keys():
+        for r in config['regions'].keys():
+            out_list = out_list + [f"results/sequence/geneOI_mapping_seq/{g}_{s}_{h}_mappings.fa" for s,h in manifest_df.index]
+            out_list = out_list + [f"results/sequence/geneOI_mapping_seq/{r}/{r}_{g}_{s}_{h}_mappings.fa" for s,h in manifest_df.index]
+    return out_list
+
 ###############
 
 
@@ -225,3 +235,8 @@ rule get_all_loc_seq:
     '''get all loc seq given master_tbl and region of interest. Return all fasta files'''
     input:
         all_loc = get_all_loc
+
+rule get_all_gene_seq:
+    '''get all gene seq from diffrent regions and full.'''
+    input:
+        all_seq = get_all_gene_seq
