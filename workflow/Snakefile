@@ -222,6 +222,7 @@ rule get_loc_gene_seq:
        output: fasta sequence
     '''
     input:
+        loc_bed = rules.get_loc_bed.output.bed,
         gene_bed = rules.get_loc_gene_bed.output.bed,
         query = get_query_fa
     output:
