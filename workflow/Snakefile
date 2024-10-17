@@ -158,7 +158,11 @@ rule get_loc_gene_bed:
         rt_hrs = 2
     conda: "envs/env.yml"
     shell:'''
-bedtools intersect -a {input.gene_bed} -b {input.loc_bed} -wa > {output.bed}
+if grep -q "Fail" {input.loc_bed}; then
+    touch {output.bed}
+else
+    bedtools intersect -a {input.gene_bed} -b {input.loc_bed} -wa > {output.bed}
+fi
 '''
 
 # rule get_pass_fail_haps:
