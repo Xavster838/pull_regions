@@ -73,7 +73,8 @@ rule map_geneOI:
     output:
         bed = "results/geneOI_mapping/{gene_oi}_{samp}_{hap}.bed",
     resources:
-        mem_mb=300
+        mem_mb=4000,
+        rt_hrs = 2
     threads: 4
     conda: "envs/env.yml" 
     shell:'''
@@ -97,7 +98,8 @@ rule get_unique:
         fa = temp("tmp/{rgn}.fa")
     threads: 2
     resources:
-        mem_mb = 200
+        mem_mb = 2000,
+        rt_hrs = 2 
     conda: "envs/env.yml"
     shell: '''
     bedtools getfasta -s -fi {input.ref} -bed {input.rgn_bed} -fo {output.fa} -nameOnly
@@ -115,7 +117,8 @@ rule map_unique:
         paf = temp("tmp/{rgn}_{samp}_{hap}_mapping.paf")
     threads: 8
     resources:
-        mem_mb = 2000
+        mem_mb = 12000,
+        rt_hrs = 2
     conda: "envs/env.yml"
     shell:'''
     minimap2 -x asm10 --secondary=no --eqx -t {threads} -r 500 -K 100M {input.query} {input.rgn_fa} > {output.paf}
@@ -132,7 +135,8 @@ rule get_loc_bed:
         bed = "tmp/{rgn}_{samp}_{hap}_rgn.bed"
     threads: 2
     resources:
-        mem_mb = 200
+        mem_mb = 200,
+        rt_hrs = 2
     conda: "envs/env.yml"
     shell:'''
 python {SDIR}/scripts/get_loc_bed.py --paf {input.paf} --bed {output.bed} --rgn {wildcards.rgn} --sample {wildcards.samp} --hap {wildcards.hap}
@@ -150,7 +154,8 @@ rule get_loc_gene_bed:
         bed = "tmp/{rgn}_rgn_{gene_oi}_{samp}_{hap}.bed"
     threads: 2
     resources:
-        mem_mb = 200
+        mem_mb = 200,
+        rt_hrs = 2
     conda: "envs/env.yml"
     shell:'''
 bedtools intersect -a {input.gene_bed} -b {input.loc_bed} -wa > {output.bed}
@@ -174,7 +179,8 @@ rule get_loc_seq:
         fa = "results/rgn_seq/{rgn}/{rgn}_rgn_{samp}_{hap}.fa"
     threads: 2
     resources:
-        mem_mb = 200
+        mem_mb = 200,
+        rt_hrs = 2
     conda: "envs/env.yml"
     log: "logs/{rgn}_{samp}_{hap}_seq_results.log"
     shell:'''
@@ -199,7 +205,8 @@ rule get_gene_seq:
         fa = "results/sequence/geneOI_mapping_seq/{gene_oi}_{samp}_{hap}_mappings.fa"
     threads: 2
     resources:
-        mem_mb = 200
+        mem_mb = 200,
+        rt_hrs=2
     conda: "envs/env.yml"
     shell:'''
 if grep -q "Fail" {input.loc_bed}; then
@@ -221,7 +228,8 @@ rule get_loc_gene_seq:
         fa = "results/sequence/geneOI_mapping_seq/{rgn}/{rgn}_{gene_oi}_{samp}_{hap}_mappings.fa"
     threads: 2
     resources:
-        mem_mb = 200
+        mem_mb = 200,
+        rt_hrs=2
     conda: "envs/env.yml"
     shell:'''
 if grep -q "Fail" {input.loc_bed}; then
