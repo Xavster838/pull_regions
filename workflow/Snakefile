@@ -213,11 +213,7 @@ rule get_gene_seq:
         rt_hrs=2
     conda: "envs/env.yml"
     shell:'''
-if grep -q "Fail" {input.loc_bed}; then
-    touch {output.fa}
-else
-    bedtools getfasta -fi {input.query} -bed {input.gene_bed} -s -nameOnly -fo {output.fa}
-fi
+bedtools getfasta -fi {input.query} -bed {input.gene_bed} -s -nameOnly -fo {output.fa}
 '''
 
 rule get_loc_gene_seq:
