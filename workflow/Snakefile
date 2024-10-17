@@ -165,6 +165,29 @@ else
 fi
 '''
 
+rule get_loc_gene_bed_for_plotting:
+    '''process beds from  from rule.get_loc_gene_bed and rule.get_loc_bed to get location of annotations on loc_fa for plotting.
+       input: 1. gene bed from rule get_loc_gene_bed; 2. bed from rule get_loc_bed
+       output: 1. gene bed of genes of interest in locus region fasta
+    '''
+    input:
+        loc_bed = rules.get_loc_bed.output.bed,
+        loc_gene_bed = rules.get_loc_bed.output.bed
+    output:
+        bed = "tmp/{rgn}_rgn_{gene_oi}_{samp}_{hap}.bed"
+    threads: 2
+    resources:
+        mem_mb = 200,
+        rt_hrs = 2
+    conda: "envs/env.yml"
+    shell:'''
+if grep -q "Fail" {input.loc_bed}; then
+    touch {output.bed}
+else
+    python get_gene_bed_for_plotting.py --loc_bed {input.loc_bed} --gene_bed {input.loc_gene_bed} --rgn {wildcards.rgn} --sample {wildcards.samp} --hap {wildcards.hap} --out_bed {output.bed}
+fi
+'''
+
 # rule get_pass_fail_haps:
 #     '''figure out samples in master_table that passed from this approach
 #        input: master table, all get_loc_bed
