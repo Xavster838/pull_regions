@@ -174,7 +174,7 @@ rule get_loc_gene_bed_for_plotting:
         loc_bed = rules.get_loc_bed.output.bed,
         loc_gene_bed = rules.get_loc_bed.output.bed
     output:
-        bed = "tmp/{rgn}_rgn_{gene_oi}_{samp}_{hap}.bed"
+        bed = "results/geneOI_mapping/for_rgn_plotting/{rgn}_rgn_{gene_oi}_{samp}_{hap}_for_plot.bed"
     threads: 2
     resources:
         mem_mb = 200,
