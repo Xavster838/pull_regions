@@ -55,6 +55,14 @@ def get_all_gene_seq(wc):
             out_list = out_list + [f"results/sequence/geneOI_mapping_seq/{r}/{r}_{g}_{s}_{h}_mappings.fa" for s,h in manifest_df.index]
     return out_list
 
+def get_all_gene_bed_for_plotting(wc):
+    '''return output names for all rule get_loc_gene_bed_for_plotting'''
+    out_list = []
+    for g in config['gene_oi'].keys():
+        for r in config['regions'].keys():
+            out_list = out_list + [f"results/geneOI_mapping/for_rgn_plotting/{r}_rgn_{g}_{s}_{h}_for_plot.bed" for s,h in manifest_df.index]
+    return out_list
+
 ###############
 
 
@@ -272,3 +280,10 @@ rule get_all_gene_seq:
     '''get all gene seq from diffrent regions and full.'''
     input:
         all_seq = get_all_gene_seq
+
+rule get_all_gene_bed_for_plotting:
+    '''get all gene seq from diffrent regions and full.'''
+    input:
+        all_seq = get_all_gene_bed_for_plotting
+
+
