@@ -48,7 +48,7 @@ def main():
     else:
         out_bed = get_gene_bed(g_bed = gene_bed, l_bed = loc_bed)
 
-    out_bed.iloc[:,1] = [f"{rgn}_{samp}_{hap}__{x}" for x in  out_bed.iloc[:,1] ] #add region, samp, hap info to name.
+    out_bed.iloc[:,0] = [f"{rgn}_{samp}_{hap}__{x}" for x in out_bed.iloc[:,0] ] #add region, samp, hap info to name.
 
     out_bed.to_csv(out_bed_path, sep = "\t", header = False, index = False)
 
