@@ -44,11 +44,11 @@ def main():
 
     #process gene_bed
     if is_rev(loc_bed.loc[0,:]):
-    out_bed = get_rev_gene_bed(g_bed = gene_bed, l_bed = loc_bed)
+        out_bed = get_rev_gene_bed(g_bed = gene_bed, l_bed = loc_bed)
     else:
         out_bed = get_gene_bed(g_bed = gene_bed, l_bed = loc_bed)
 
-    pd.write_csv(out_bed, file = out_bed_path, sep = "\t", header = False, index = False)
+    out_bed.to_csv(out_bed_path, sep = "\t", header = False, index = False)
 
 if __name__ == "__main__":
     main()
