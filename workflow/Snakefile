@@ -172,7 +172,7 @@ rule get_loc_gene_bed_for_plotting:
     '''
     input:
         loc_bed = rules.get_loc_bed.output.bed,
-        loc_gene_bed = rules.get_loc_bed.output.bed
+        loc_gene_bed = rules.get_loc_gene_bed.output.bed
     output:
         bed = "results/geneOI_mapping/for_rgn_plotting/{rgn}_rgn_{gene_oi}_{samp}_{hap}_for_plot.bed"
     threads: 2
@@ -184,7 +184,7 @@ rule get_loc_gene_bed_for_plotting:
 if grep -q "Fail" {input.loc_bed}; then
     touch {output.bed}
 else
-    python get_gene_bed_for_plotting.py --loc_bed {input.loc_bed} --gene_bed {input.loc_gene_bed} --rgn {wildcards.rgn} --sample {wildcards.samp} --hap {wildcards.hap} --out_bed {output.bed}
+    python {SDIR}/scripts/get_gene_bed_for_plotting.py --loc_bed {input.loc_bed} --loc_gene_bed {input.loc_gene_bed} --rgn {wildcards.rgn} --sample {wildcards.samp} --hap {wildcards.hap} --out_bed {output.bed}
 fi
 '''
 
