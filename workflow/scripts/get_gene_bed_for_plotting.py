@@ -15,8 +15,8 @@ def get_rev_gene_bed(g_bed, l_bed):
 
 def get_gene_bed(g_bed, l_bed):
     '''return gene_bed with loc_bed start subtracted form each start and end to get coordinates for plotting'''
-    g_bed[1] = g_bed[1] - l_bed[1] #subtract start of loc_bed
-    g_bed[2] = g_bed[2] - l_bed[1] 
+    g_bed[1] = [ int( x - l_bed.iloc[0,1]) for x in g_bed[1] ]  #subtract start of loc_bed
+    g_bed[2] = [ int( x - l_bed.iloc[0,1]) for x in g_bed[2] ] 
     return(g_bed)
 
 
