@@ -15,6 +15,7 @@ def main():
     parser.add_argument("--sample", required=True ,help="sample name passed as wildcard.")
     parser.add_argument("--hap", required=True ,help="hap name passed as wildcard.")
     parser.add_argument("--rgn", required=True ,help="rgn name passed as wildcard.")
+    parser.add_argument("--rgn_fai", required=True ,help="fai of rgn sequence aligned for PAF file.")
     # Process PAF file with pysam
     args = parser.parse_args()
     path =  args.paf
@@ -23,14 +24,17 @@ def main():
     samp = args.sample
     hap = args.hap
     rgn = args.rgn
+    rgn_fai = args.rgn_fai
     # load records
     records = list()
+    # get number of alignments expected in paf
+    rgn_aln_n = len(open(rgn_fai).readlines()) #number of alignments there should be in a paf
     with PafFile(path) as paf:
         for record in paf:
             records.append(record)
     #process each condition
-    if(len(records) != 2):
-        write_output(f"Fail: {rgn}:{samp}_{hap}: more than 2 alignments", out_bed)
+    if(len(records) != rgn_aln_n):
+        write_output(f"Fail: {rgn}:{samp}_{hap}: does not have same n alignments as expected from {rgn_fai}: {rgn_aln_n}", out_bed)
         exit()
     if( len( set( rec.tname for rec in records ) )!= 1):
         write_output(f"Fail: {rgn}:{samp}_{hap}: unique regions aligned to different contigs", out_bed)
