@@ -140,7 +140,8 @@ rule get_loc_bed:
        output: bed file of merged location
     '''
     input:
-        paf = rules.map_unique.output.paf
+        paf = rules.map_unique.output.paf,
+        fai = rules.get_unique.output.fai
     output:
         bed = "tmp/{rgn}_{samp}_{hap}_rgn.bed"
     threads: 2
@@ -149,7 +150,7 @@ rule get_loc_bed:
         rt_hrs = 2
     conda: "envs/env.yml"
     shell:'''
-python {SDIR}/scripts/get_loc_bed.py --paf {input.paf} --bed {output.bed} --rgn {wildcards.rgn} --sample {wildcards.samp} --hap {wildcards.hap}
+python {SDIR}/scripts/get_loc_bed.py --paf {input.paf} --rgn_fai {input.fai} --bed {output.bed} --rgn {wildcards.rgn} --sample {wildcards.samp} --hap {wildcards.hap}
 '''
 
 rule get_loc_gene_bed:
