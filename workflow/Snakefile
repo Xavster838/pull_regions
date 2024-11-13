@@ -103,7 +103,8 @@ rule get_unique:
         ref = get_ref,
         rgn_bed=get_rgn_bed
     output:
-        fa = temp("tmp/{rgn}.fa")
+        fa = temp("tmp/{rgn}.fa"),
+        fai = temp("tmp/{rgn}.fa.fai"),
     threads: 2
     resources:
         mem_mb = 2000,
@@ -111,6 +112,7 @@ rule get_unique:
     conda: "envs/env.yml"
     shell: '''
     bedtools getfasta -s -fi {input.ref} -bed {input.rgn_bed} -fo {output.fa} -nameOnly
+    samtools faidx {output.fa}
 '''
 
 rule map_unique:
