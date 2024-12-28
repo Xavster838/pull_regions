@@ -131,7 +131,7 @@ rule map_unique:
         rt_hrs = 2
     conda: "envs/env.yml"
     shell:'''
-    minimap2 -x asm10 --secondary=no --eqx -t {threads} -r 500 -K 100M {input.query} {input.rgn_fa} > {output.paf}
+    minimap2 -x asm20 --secondary=no --eqx -t {threads} -r 500 -K 100M {input.query} {input.rgn_fa} > {output.paf}
 '''
 
 rule get_loc_bed:
